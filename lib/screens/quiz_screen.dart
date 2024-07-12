@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler_app_flutter/data/questions.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -9,22 +10,32 @@ class QuizPage extends StatefulWidget {
 
 List<Widget> scoreKeeper = [];
 
+int questionNumber = 0;
+
 class _QuizPageState extends State<QuizPage> {
+  void nextQuestion() {
+    setState(() {
+      questionNumber++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool correctAnwswer = answers[questionNumber];
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        const Expanded(
+        Expanded(
           flex: 5,
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                questions[questionNumber], //??
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 25.0,
                   color: Colors.white,
                 ),
@@ -46,7 +57,15 @@ class _QuizPageState extends State<QuizPage> {
                   fontSize: 20.0,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                if (correctAnwswer == false) {
+                  print('user got it right');
+                } else {
+                  print('user got it wrong');
+                }
+
+                nextQuestion();
+              },
             ),
           ),
         ),
@@ -79,7 +98,5 @@ class _QuizPageState extends State<QuizPage> {
 } //??
 
 /*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
+
 */
